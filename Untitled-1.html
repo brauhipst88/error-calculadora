@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora - Excepción de Sistema</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: monospace; overflow: hidden; background-color: #111; color: #00ff00; }
+        #bait-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; position: absolute; width: 100%; z-index: 10000; background-color: #222; }
+        .bait-box { background: #000; padding: 40px; border: 2px solid #00ff00; text-align: center; }
+        button { padding: 15px 30px; font-size: 1.2rem; background-color: #ff0000; color: white; border: none; cursor: pointer; margin-top: 20px; font-weight: bold; }
+        button:hover { background-color: #cc0000; }
+
+        #hell-screen { display: none; width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; animation: backgroundFlash 0.1s infinite; }
+        
+        #flashbang { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: white; z-index: 9999; pointer-events: none; animation: flashFade 3s forwards; }
+
+        h1 { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Impact', sans-serif; font-size: 8rem; color: #ff00ff; text-shadow: 5px 5px 0px #00ffff, -5px -5px 0px #ffff00; z-index: 100; text-align: center; pointer-events: none; width: 100%; text-transform: uppercase; animation: shake 0.1s infinite; }
+
+        .reel { position: absolute; border: 5px solid yellow; z-index: 50; }
+        .reel video { width: 100%; height: 100%; object-fit: cover; border: none; }
+
+        .reel:nth-child(3) { width: 320px; height: 550px; top: 5%; left: 5%; animation: bounce 0.4s infinite alternate; }
+        .reel:nth-child(4) { width: 360px; height: 600px; top: 10%; right: 5%; animation: spin 2s linear infinite; }
+        
+        .gameplay-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; opacity: 0.5; pointer-events: none; }
+        .gameplay-bg video { width: 100%; height: 100%; object-fit: cover; }
+
+        @keyframes flashFade { 0% { opacity: 1; background-color: white; } 20% { opacity: 1; background-color: white; } 100% { opacity: 0; display: none; } }
+        @keyframes backgroundFlash { 0% { background-color: #ff00ff; } 33% { background-color: #00ffff; } 66% { background-color: #ffff00; } 100% { background-color: #ff00ff; } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes bounce { 100% { transform: translateY(50px) scale(1.1); } }
+        @keyframes shake { 0% { transform: translate(15px, 15px); } 50% { transform: translate(-15px, -15px); } 100% { transform: translate(15px, -15px); } }
+    </style>
+</head>
+<body>
+
+    <audio id="audio1" src="audio1.mp3"></audio>
+    <audio id="audio2" src="audio2.mp3"></audio>
+    <audio id="audio3" src="audio3.mp3"></audio>
+    <audio id="audio4" src="audio4.mp3"></audio>
+    <audio id="audio5" src="audio5.mp3"></audio>
+    <audio id="audio6" src="audio6.mp3"></audio>
+    <audio id="audio7" src="audio7.mp3"></audio>
+    <audio id="audio8" src="audio8.mp3"></audio>
+
+    <div id="bait-screen">
+        <div class="bait-box">
+            <h2>System.DivideByZeroException</h2>
+            <p>Error crítico en tiempo de ejecución. El denominador es 0.</p>
+            <button id="trigger-btn">Depurar Error</button>
+        </div>
+    </div>
+
+    <div id="hell-screen">
+        <div class="gameplay-bg">
+            <video id="vid-bg" src="gameplay.mp4" autoplay loop muted playsinline></video>
+        </div>
+
+        <div id="flashbang"></div>
+        <h1>0 / 0 = 💀</h1>
+
+        <div class="reel">
+            <video id="vid1" src="video1.mp4" autoplay loop muted playsinline></video>
+        </div>
+
+        <div class="reel">
+            <video id="vid2" src="video2.mp4" autoplay loop muted playsinline></video>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('trigger-btn').addEventListener('click', function() {
+            // Forzar reproducción de audios
+            const audios = [
+                document.getElementById('audio1'),
+                document.getElementById('audio2'),
+                document.getElementById('audio3'),
+                document.getElementById('audio4'),
+                document.getElementById('audio5'),
+                document.getElementById('audio6'),
+                document.getElementById('audio7'),
+                document.getElementById('audio8')
+            ];
+
+            audios.forEach(audio => {
+                if(audio) {
+                    audio.volume = 1.0;
+                    audio.play().catch(e => console.log(e));
+                }
+            });
+
+            // Forzar reproducción de videos para celulares
+            const videos = [
+                document.getElementById('vid-bg'),
+                document.getElementById('vid1'),
+                document.getElementById('vid2')
+            ];
+            
+            videos.forEach(video => {
+                if(video) {
+                    video.play().catch(e => console.log(e));
+                }
+            });
+
+            document.getElementById('bait-screen').style.display = 'none';
+            document.getElementById('hell-screen').style.display = 'block';
+
+            setTimeout(() => {
+                window.location.href = "https://www.google.com";
+            }, 8000);
+        });
+    </script>
+
+</body>
+</html>
